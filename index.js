@@ -51,7 +51,8 @@ app.get("/article3", async (req, res) => {
 
   try {
     const browser3 = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      headless: true
     })
     console.log('browser3', browser3)
 
