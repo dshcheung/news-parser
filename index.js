@@ -51,23 +51,8 @@ app.get("/article3", async (req, res) => {
   console.log('url', url)
 
   try {
-    const stats = await PCR({
-      revision: "",
-      detectionPath: "",
-      folderName: `${__dirname}/tmp/.chromium-browser-snapshots`,
-      defaultHosts: ["https://storage.googleapis.com", "https://npm.taobao.org/mirrors"],
-      hosts: [],
-      cacheRevisions: 2,
-      retry: 3,
-      silent: false
-    })
-    console.log('stats', stats)
-
-    const browser3 = await stats.puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      executablePath: stats.executablePath,
-      // args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process'],
-      // headless: true,
+    const browser3 = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     })
     console.log('browser3', browser3)
 
