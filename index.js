@@ -45,10 +45,14 @@ app.get("/article3", async (req, res) => {
       // headless: false
     })
     const page3 = await browser3.newPage()
-    await page3.goto(url, { waitUntil: 'networkidle0' })
+    console.log('page3', page3)
+    await page3.goto(url)
     const html3 = await page3.evaluate(() => document.body.innerHTML)
-    const doc3 = new JSDOM(html3).window.document
-    const article3 = new Readability(doc3).parse()
+    console.log('html3', html3)
+    const doc3 = new JSDOM(html3)
+    console.log('doc3', doc3)
+    const article3 = new Readability(doc3.window.document).parse()
+    console.log('article3', article3)
     await browser3.close()
     res.status(200).json(article3)
   } catch (err) {
