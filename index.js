@@ -4,11 +4,14 @@ const { JSDOM } = require('jsdom')
 const { Readability } = require('@mozilla/readability')
 const { extract } = require('article-parser')
 const puppeteer = require('puppeteer')
+const morgan = require('morgan')
 
 const app = express()
 const port = process.env.PORT || 3000
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+app.use(morgan('dev'))
 
 // Readability
 app.get("/article1", async (req, res) => {
@@ -38,6 +41,7 @@ app.get("/article2", async (req, res) => {
 // Puppeteer + Readability
 app.get("/article3", async (req, res) => {
   const { query: { url } } = req
+  console.log('url', url)
 
   try {
     const browser3 = await puppeteer.launch({
