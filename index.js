@@ -5,6 +5,7 @@ const { Readability } = require('@mozilla/readability')
 const { extract } = require('article-parser')
 const puppeteer = require('puppeteer')
 const morgan = require('morgan')
+const PCR = require("puppeteer-chromium-resolver")
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -46,10 +47,26 @@ app.get("/article3", async (req, res) => {
   console.log('url', url)
 
   try {
-    const browser3 = await puppeteer.launch({
-      // args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process'],
-      // headless: false
+    const stats = await PCR({
+      revision: "",
+      detectionPath: "",
+      folderName: ".chromium-browser-snapshots",
+      defaultHosts: ["https://storage.googleapis.com", "https://npm.taobao.org/mirrors"],
+      hosts: [],
+      cacheRevisions: 2,
+      retry: 3,
+      silent: false
     })
+
+    console.log('stats', stats)
+
+    const browser3 = await puppeteer.launch({
+      headless: false,
+      args: ["--no-sandbox"],
+      executablePath: stats.executablePath,
+      // args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process'],
+    })
+
     const page3 = await browser3.newPage()
     console.log('page3', page3)
     await page3.goto(url)
