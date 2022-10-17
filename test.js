@@ -12,7 +12,8 @@ const url = 'https://www.bloomberg.com/news/articles/2022-10-16/key-takeaways-fr
 
 const test = async (r) => {
   const browser3 = await puppeteer.launch({
-    headless: true
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    headless: false
   })
   console.log('browser3', browser3)
 
