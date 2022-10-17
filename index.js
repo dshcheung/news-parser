@@ -41,11 +41,11 @@ app.get("/article3", async (req, res) => {
 
   try {
     const browser3 = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process'],
-      headless: false
+      // args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process'],
+      // headless: false
     })
     const page3 = await browser3.newPage()
-    await page3.goto(url)
+    await page3.goto(url, { waitUntil: 'networkidle0' })
     const html3 = await page3.evaluate(() => document.body.innerHTML)
     const doc3 = new JSDOM(html3).window.document
     const article3 = new Readability(doc3).parse()
