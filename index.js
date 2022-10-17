@@ -3,7 +3,6 @@ const axios = require('axios')
 const { JSDOM } = require('jsdom')
 const { Readability } = require('@mozilla/readability')
 const { extract } = require('article-parser')
-const puppeteer = require('puppeteer')
 const morgan = require('morgan')
 const PCR = require("puppeteer-chromium-resolver")
 
@@ -60,7 +59,7 @@ app.get("/article3", async (req, res) => {
 
     console.log('stats', stats)
 
-    const browser3 = await puppeteer.launch({
+    const browser3 = await stats.puppeteer.launch({
       headless: false,
       args: ["--no-sandbox"],
       executablePath: stats.executablePath,
