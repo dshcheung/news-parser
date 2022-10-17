@@ -50,7 +50,7 @@ app.get("/article3", async (req, res) => {
     const stats = await PCR({
       revision: "",
       detectionPath: "",
-      folderName: ".chromium-browser-snapshots",
+      folderName: "tmp/.chromium-browser-snapshots",
       defaultHosts: ["https://storage.googleapis.com", "https://npm.taobao.org/mirrors"],
       hosts: [],
       cacheRevisions: 2,
