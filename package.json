@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "build": "node node_modules/puppeteer/install.js"
+    "heroku-postbuild": "node node_modules/puppeteer/install.js"
   },
   "author": "",
   "license": "ISC",
