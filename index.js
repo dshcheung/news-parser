@@ -5,7 +5,6 @@ const { JSDOM } = require('jsdom')
 const { Readability } = require('@mozilla/readability')
 const { extract } = require('article-parser')
 const morgan = require('morgan')
-const PCR = require("puppeteer-chromium-resolver")
 const puppeteer = require("puppeteer")
 
 const app = express()
