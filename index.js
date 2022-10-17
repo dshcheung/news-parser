@@ -22,6 +22,7 @@ app.get("/article1", async (req, res) => {
     const article1 = new Readability(doc1.window.document).parse()
     res.status(200).json(article1)
   } catch (err) {
+    console.log(err)
     res.status(400).json(err)
   }
 })
@@ -34,6 +35,7 @@ app.get("/article2", async (req, res) => {
     const article2 = await extract(url)
     res.status(200).json(article2)
   } catch (err) {
+    console.log(err)
     res.status(400).json(err)
   }
 })
@@ -60,6 +62,7 @@ app.get("/article3", async (req, res) => {
     await browser3.close()
     res.status(200).json(article3)
   } catch (err) {
+    console.log(err)
     res.status(400).json(err)
   }
 })
