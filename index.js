@@ -6,7 +6,6 @@ const { Readability } = require('@mozilla/readability')
 const { extract } = require('article-parser')
 const morgan = require('morgan')
 const PCR = require("puppeteer-chromium-resolver")
-const URL = require('url').URL
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -61,27 +60,26 @@ app.get("/article3", async (req, res) => {
       retry: 3,
       silent: false
     })
-
     console.log('stats', stats)
 
-    // const browser3 = await stats.puppeteer.launch({
-    //   headless: false,
-    //   args: ["--no-sandbox"],
-    //   executablePath: stats.executablePath,
-    //   // args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process'],
-    // })
+    const browser3 = await stats.puppeteer.launch({
+      headless: false,
+      args: ["--no-sandbox"],
+      executablePath: stats.executablePath,
+      // args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process'],
+    })
 
-    // const page3 = await browser3.newPage()
-    // console.log('page3', page3)
-    // await page3.goto(url)
-    // const html3 = await page3.evaluate(() => document.body.innerHTML)
-    // console.log('html3', html3)
-    // const doc3 = new JSDOM(html3)
-    // console.log('doc3', doc3)
-    // const article3 = new Readability(doc3.window.document).parse()
-    // console.log('article3', article3)
-    // await browser3.close()
-    // res.status(200).json(article3)
+    const page3 = await browser3.newPage()
+    console.log('page3', page3)
+    await page3.goto(url)
+    const html3 = await page3.evaluate(() => document.body.innerHTML)
+    console.log('html3', html3)
+    const doc3 = new JSDOM(html3)
+    console.log('doc3', doc3)
+    const article3 = new Readability(doc3.window.document).parse()
+    console.log('article3', article3)
+    await browser3.close()
+    res.status(200).json(article3)
   } catch (err) {
     console.log(err)
     res.status(400).json(err)
