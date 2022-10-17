@@ -1,12 +1,14 @@
 const express = require("express")
-const app = express()
-const port = process.env.PORT || 3000
-
 const axios = require('axios')
 const { JSDOM } = require('jsdom')
 const { Readability } = require('@mozilla/readability')
 const { extract } = require('article-parser')
 const puppeteer = require('puppeteer')
+
+const app = express()
+const port = process.env.PORT || 3000
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 // Readability
 app.get("/article1", async (req, res) => {
