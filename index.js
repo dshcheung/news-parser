@@ -1,9 +1,11 @@
 const express = require("express")
+const fs = require("fs")
 const axios = require('axios')
 const { JSDOM } = require('jsdom')
 const { Readability } = require('@mozilla/readability')
 const { extract } = require('article-parser')
 const morgan = require('morgan')
+const PCR = require("puppeteer-chromium-resolver")
 const puppeteer = require("puppeteer")
 
 const app = express()
@@ -12,6 +14,9 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 app.use(morgan('dev'))
+
+const dirname = `${__dirname}/tmp`
+if (!fs.existsSync(dirname)) fs.mkdirSync(dirname)
 
 // Readability
 app.get("/article1", async (req, res) => {
@@ -46,12 +51,25 @@ app.get("/article3", async (req, res) => {
   console.log('url', url)
 
   try {
-    const browser3 = await puppeteer.launch({
+    const stats = await PCR({
+      revision: "",
+      detectionPath: "",
+      folderName: `${__dirname}/tmp/.chromium-browser-snapshots`,
+      defaultHosts: ["https://storage.googleapis.com", "https://npm.taobao.org/mirrors"],
+      hosts: [],
+      cacheRevisions: 2,
+      retry: 3,
+      silent: false
+    })
+    console.log('stats', stats)
+
+    const browser3 = await stats.puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      // executablePath: stats.executablePath,
+      executablePath: stats.executablePath,
       // args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process'],
       // headless: true,
     })
+    console.log('browser3', browser3)
 
     const page3 = await browser3.newPage()
     console.log('page3', page3)
